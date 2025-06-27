@@ -1,0 +1,90 @@
+classDiagram
+
+class User {
+  - String name
+  - String email
+  - String password
+  - List~Booking~ bookings
+  + getName(): String
+  + getEmail(): String
+  + getPassword(): String
+  + getBookings(): List~Booking~
+  + addBooking(booking: Booking): void
+  + removeBooking(booking: Booking): void
+  + authenticate(email: String, password: String): boolean
+}
+
+class Booking {
+  - Movie movie
+  - Date date
+  - int seatNumber
+  - User user
+  - String status
+  + getMovie(): Movie
+  + getDate(): Date
+  + getSeatNumber(): int
+  + getUser(): User
+  + getStatus(): String
+  + setMovie(movie: Movie): void
+  + setDate(date: Date): void
+  + setSeatNumber(seatNumber: int): void
+  + setUser(user: User): void
+  + setStatus(status: String): void
+}
+
+class Movie {
+  - String title
+  - String description
+  - List~String~ actors
+  - Date releaseDate
+  - String posterUrl
+  - boolean featured
+  - List~Booking~ bookings
+  - Admin admin
+  - int totalSeats
+  + getTitle(): String
+  + getDescription(): String
+  + getActors(): List~String~
+  + getReleaseDate(): Date
+  + getPosterUrl(): String
+  + isFeatured(): boolean
+  + setFeatured(featured: boolean): void
+  + getBookings(): List~Booking~
+  + addBooking(booking: Booking): void
+  + removeBooking(booking: Booking): void
+  + setAdmin(admin: Admin): void
+  + getAdmin(): Admin
+  + getBookingsByDate(date: Date): List~Booking~
+  + getTotalSeats(): int
+  + setTotalSeats(total: int): void
+}
+
+class Admin {
+  - String email
+  - String password
+  - List~Movie~ addedMovies
+  + getEmail(): String
+  + getPassword(): String
+  + getAddedMovies(): List~Movie~
+  + addMovie(movie: Movie): void
+  + removeMovie(movie: Movie): void
+  + authenticate(email: String, password: String): boolean
+  + assignMovie(movie: Movie): void
+}
+
+class Seat {
+  - int id
+  - String status
+  + getId(): int
+  + getStatus(): String
+  + setStatus(status: String): void
+  + isAvailable(): boolean
+  + isSelected(): boolean
+  + isBooked(): boolean
+}
+
+User "1" --> "0..*" Booking : faz
+Booking "1" --> "1" Movie : reserva
+Movie "1" --> "1" Admin : criado por
+Movie "1" --> "0..*" Seat : possui
+Booking "1" --> "1" Seat : reserva 
